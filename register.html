@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 350px;
+            margin: 100px auto;
+            padding: 30px;
+            background-color: white;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .container:hover {
+            transform: scale(1.02); /* Увеличение при наведении */
+        }
+
+        h1 {
+            color: #0033A0; /* Синий цвет */
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold; /* Жирный шрифт для заголовка */
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+            text-align: left;
+            color: #333; /* Темный цвет для текста */
+        }
+
+        input[type="text"] {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box; /* Учитываем padding в ширине */
+            margin-bottom: 15px; /* Отступ снизу */
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #0033A0; /* Синяя рамка при фокусе */
+            outline: none; /* Убираем стандартный outline */
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            background-color: #A40000; /* Красный цвет для кнопки */
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background-color: #cc0000; /* Темный красный при наведении */
+            transform: translateY(-2px); /* Плавный подъем кнопки */
+        }
+
+        .social-buttons {
+            margin-top: 20px;
+        }
+
+        .social-button {
+            padding: 12px;
+            border: none;
+            cursor: pointer;
+            margin: 5px 0; /* Отступ сверху и снизу */
+            border-radius: 5px;
+            font-size: 16px;
+            color: white;
+            width: 100%;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .vk {
+            background-color: #4c75a3; /* Цвет ВКонтакте */
+        }
+
+        .vk:hover {
+            background-color: #3b5a8f; /* Темный цвет ВКонтакте при наведении */
+            transform: translateY(-2px); /* Плавный подъем кнопки */
+        }
+
+        .google {
+            background-color: #808080; /* Серый цвет */
+        }
+
+        .google:hover {
+            background-color: #696969; /* Темный серый при наведении */
+            transform: translateY(-2px); /* Плавный подъем кнопки */
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #777;
+            text-align: center; /* Центрирование текста подвала */
+        }
+
+        h2 {
+            color: #0033A0; /* Синий цвет */
+            margin: 20px 0 10px 0; /* Отступы для заголовка */
+            font-size: 18px; /* Размер шрифта для подзаголовка */
+            font-weight: normal; /* Обычный вес шрифта для подзаголовка */
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+<h1>Регистрация</h1>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul>
+    {% for message in messages %}
+      <li style="color: red;">{{ message }}</li>  <!-- Выводим сообщения красным -->
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<form method="post">
+    <label for="voter_id">Введите свое ФИО:</label>
+    <input type="text" id="voter_id" name="voter_id" required>
+    <button type="submit">Зарегистрироваться</button>
+</form>
+
+<h2>Или</h2>
+<div class="social-buttons">
+
+<div>
+  <script src="https://unpkg.com/@vkid/sdk@<3.0.0/dist-sdk/umd/index.js"></script>
+  <script type="text/javascript">
+    if ('VKIDSDK' in window) {
+      const VKID = window.VKIDSDK;
+
+      VKID.Config.init({
+        app: 53455752,
+        redirectUrl: 'https://voiting46.ru/',
+        responseMode: VKID.ConfigResponseMode.Callback,
+        source: VKID.ConfigSource.LOWCODE,
+        scope: '', // Заполните нужными доступами по необходимости
+      });
+
+      const oneTap = new VKID.OneTap();
+
+      oneTap.render({
+        container: document.currentScript.parentElement,
+        showAlternativeLogin: true,
+        styles: {
+          borderRadius: 13
+        },
+        oauthList: [
+          'mail_ru'
+        ]
+      })
+      .on(VKID.WidgetEvents.ERROR, vkidOnError)
+      .on(VKID.OneTapInternalEvents.LOGIN_SUCCESS, function (payload) {
+        const code = payload.code;
+        const deviceId = payload.device_id;
+
+        VKID.Auth.exchangeCode(code, deviceId)
+          .then(vkidOnSuccess)
+          .catch(vkidOnError);
+      });
+    
+      function vkidOnSuccess(data) {
+        // Обработка полученного результата
+      }
+    
+      function vkidOnError(error) {
+        // Обработка ошибки
+      }
+    }
+  </script>
+</div>
+</div>
+</div>
+</body>
+</html>

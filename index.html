@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Голосование</title>
+    <style>
+        body {
+            background-color: #FFFFFF; /* Белый фон */
+            color: #2C3E50; /* Темный цвет текста */
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            border: 2px solid #0033A0; /* Синий цвет для границы */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #A40000; /* Красный цвет для заголовка */
+        }
+        p {
+            font-size: 14px; /* Размер шрифта для дополнительного текста */
+            color: #7F8C8D; /* Серый цвет текста */
+            margin: 5px 0 20px; /* Отступы для текста */
+        }
+        label {
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        #register-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            color: white;
+            background-color: #0033A0; /* Синий цвет фона ссылки */
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        #register-link:hover {
+            background-color: #A40000; /* Красный цвет при наведении */
+        }
+        #register-link.hidden {
+            display: none; /* Скроем ссылку при помощи класса */
+        }
+    </style>
+    <script>
+        function toggleRegisterLink() {
+            const checkbox1 = document.getElementById('agree1').checked;
+            const checkbox2 = document.getElementById('agree2').checked;
+            const link = document.getElementById('register-link');
+            if (checkbox1 && checkbox2) {
+                link.classList.remove('hidden');
+            } else {
+                link.classList.add('hidden');
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Голосование</h1>
+    <p>Для продолжения дистанционного голосования необходимо зарегистрироваться.</p>
+    <form>
+        <div>
+            <input type="checkbox" id="agree1" onchange="toggleRegisterLink()">
+            <label for="agree1">Согласен с использованием персональных данных.</label>
+        </div>
+        <div>
+            <input type="checkbox" id="agree2" onchange="toggleRegisterLink()">
+            <label for="agree2">Подтверждаю, что предоставляю свои данные и осуществляю голосование самостоятельно.</label>
+        </div>
+        <div>
+            <a href="{{ url_for('register') }}" id="register-link" class="hidden">Зарегистрироваться</a>
+        </div>
+    </form>
+</body>
+</html>

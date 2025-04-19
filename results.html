@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результаты голосования</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F4F4F4; /* Светлый фон */
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0033A0; /* Синий цвет */
+            margin-top: 20px; /* Отступ сверху */
+            font-size: 24px; /* Размер шрифта заголовка */
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto; /* Центрирование таблицы */
+            border-collapse: collapse; /* Убираем промежутки между ячейками */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Добавляем тень для большей глубины */
+            background-color: #fff; /* Белый фон таблицы */
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center; /* Центрирование текста в ячейках */
+            border: 1px solid #ddd; /* Серая рамка для ячеек */
+        }
+
+        th {
+            background-color: #0033A0; /* Синий фон для заголовков таблицы */
+            color: white; /* Белый цвет текста в заголовках */
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2; /* Светло-серый цвет для четных строк */
+        }
+
+        tr:hover {
+            background-color: #e0e0e0; /* Изменение цвета фона строки при наведении */
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px; /* Отступ сверху для подвала */
+            color: #777; /* Серый цвет для подвала */
+        }
+    </style>
+</head>
+<body>
+    <h1>Результаты голосования</h1>
+    <table>
+        <tr>
+            <th>Кандидат</th>
+            <th>Голоса</th>
+        </tr>
+        {% for candidate, votes in results.items() %}
+        <tr>
+            <td>{{ candidate }}</td>
+            <td>{{ votes }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>
